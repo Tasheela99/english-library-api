@@ -1,5 +1,6 @@
 const Video = require('../model/VideoSchema');
 const Generator = require('../util/CodeGenerator')
+const Book = require("../model/BookSchema");
 
 
 const saveVideo = (req, res) => {
@@ -64,10 +65,22 @@ const findAllVideos = (req, res) => {
     })
 }
 
+const getVideoCount = (req, res) => {
+    Video.countDocuments()
+        .then(count => {
+            res.status(200).json({ status: true, count: count });
+        })
+        .catch(error => {
+            res.status(500).json({ status: false, error: error.message });
+        });
+};
+
+
 module.exports = {
     saveVideo,
     findVideo,
     updateVideo,
     deleteVideo,
-    findAllVideos
+    findAllVideos,
+    getVideoCount
 }

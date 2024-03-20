@@ -1,5 +1,7 @@
 const Book = require('../model/BookSchema');
 const Generator = require('../util/CodeGenerator')
+const User = require("../model/UserSchema");
+const {param} = require("express/lib/router");
 
 const saveBook = (req, res) => {
 
@@ -64,17 +66,70 @@ const deleteBook = (req, res) => {
     })
 }
 const findAllBooks = (req, res) => {
-    Book.find().then(result => {
+    Book.find().sort({bookName:1}).then(result => {
         res.status(200).json({status: true, data: result})
     }).catch((error) => {
         res.status(500).json(error);
     })
 }
 
+const getBookCount = (req, res) => {
+    Book.countDocuments()
+        .then(count => {
+            res.status(200).json({status: true, count: count});
+        })
+        .catch(error => {
+            res.status(500).json({status: false, error: error.message});
+        });
+};
+
+const getAllFreeBooks = (req, res) => {
+    Book.find({bookCategory: "FREE"})
+        .sort({bookName: 1})
+        .then(result => {
+            res.status(200).json({status: true, data: result})
+        }).catch((error) => {
+        res.status(500).json(error);
+    })
+}
+const getAllGrammarBooks = (req, res) => {
+    Book.find({bookCategory: "GRAMMAR"})
+        .sort({bookName: 1})
+        .then(result => {
+            res.status(200).json({status: true, data: result})
+        }).catch((error) => {
+        res.status(500).json(error);
+    })
+}
+const getAllSentencePatternBooks = (req, res) => {
+    Book.find({bookCategory: "SENTENCE_PATTERN"})
+        .sort({bookName: 1})
+        .then(result => {
+            res.status(200).json({status: true, data: result})
+        }).catch((error) => {
+        res.status(500).json(error);
+    })
+}
+const getAllDialogueBooks = (req, res) => {
+    Book.find({bookCategory: "DIALOGUE"})
+        .sort({bookName: 1})
+        .then(result => {
+            res.status(200).json({status: true, data: result})
+        }).catch((error) => {
+        res.status(500).json(error);
+    })
+}
+
+
 module.exports = {
     saveBook,
     findBook,
     updateBook,
     deleteBook,
-    findAllBooks
+    findAllBooks,
+    getBookCount,
+    getAllFreeBooks,
+    getAllGrammarBooks,
+    getAllSentencePatternBooks,
+    getAllDialogueBooks
 }

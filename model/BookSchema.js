@@ -9,4 +9,4 @@ const BookSchema = new mongoose.Schema({
     bookEnteredDate:{type:String, required:true},
 });
 
-module.exports = mongoose.model('Book',BookSchema);
+module.exports = mongoose.model('Books',BookSchema);

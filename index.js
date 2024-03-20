@@ -9,12 +9,15 @@ const BookRoute = require('./route/BookRoute')
 const VideoRoute = require('./route/VideoRoute')
 const UserRoute = require('./route/UserRoute')
 const UsersBooksRoute = require('./route/UsersBooksRoute')
+const {initializeAdmin} = require("./controller/UserController");
+const UserController = require('./controller/UserController')
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}))
 app.use(bodyParser.json());
 
-mongoose.connect('mongodb://127.0.0.1:27017/library_api').then(() => {
+mongoose.connect('mongodb://127.0.0.1:27017/library_api').then(async () => {
+    await UserController.initializeAdmin(null, null);
     app.listen(3000, () => {
         console.log(`api started and running on port ${PORT}`)
     });

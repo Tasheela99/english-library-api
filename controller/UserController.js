@@ -4,8 +4,46 @@ const Generator = require('../util/CodeGenerator');
 const jwt = require('jsonwebtoken');
 const User = require('../model/UserSchema')
 
+
+const initializeAdmin = async () => {
+    try {
+        const existingAdmin = await UserSchema.findOne({ email: 'tasheelajay1999@gmail.com' });
+        if (existingAdmin) {
+            return;
+        }
+        bcrypt.hash('admin123', 10, function (err, hash) {
+            if (err) {
+                console.log("SOMETHING WENT WRONG")
+            }
+            const userCode = Generator.generateCode("ADMIN");
+            const adminUser = new UserSchema({
+                code: userCode,
+                fullName: "Tasheela Jayawickrama",
+                email: "tasheelajay1999@gmail.com",
+                mobile: "0766308272",
+                password: hash,
+                avatar: "",
+                loginTime: "",
+                shortTimeSubscriber: true,
+                yearlySubscriber: true,
+                lifeTimeSubscriber: true,
+                isAdmin: true,
+                isUser: false,
+                activeState: true
+            });
+            adminUser.save()
+        });
+    } catch (error) {
+        console.error('Error initializing admin:', error);
+    }
+};
+
+
+
+
 const signUp = async (req, res) => {
-    UserSchema.findOne({email: req.body.email}).then(result => {
+    UserSchema.findOne({email: req.body.email}).then(async result => {
+
         if (result == null) {
             bcrypt.hash(req.body.password, 10, function (err, hash) {
                 if (err) {
@@ -40,6 +78,8 @@ const signUp = async (req, res) => {
         res.status(500).json(error);
     })
 }
+
+
 const signIn = async (req, res) => {
     UserSchema.findOne({email: req.body.email}).then(selectedUser => {
         if (selectedUser == null) {
@@ -53,9 +93,9 @@ const signIn = async (req, res) => {
 
                     selectedUser.loginTime = new Date().toISOString();
                     selectedUser.save().then(() => {
-                        const token = jwt.sign({ 'email': selectedUser.email }, process.env.SECRET_KEY, { expiresIn: 3600 });
+                        const token = jwt.sign({'email': selectedUser.email}, process.env.SECRET_KEY, {expiresIn: 3600});
                         res.setHeader('Authorization', `Bearer ${token}`);
-                        return res.status(200).json({ status: true, message: "USER LOGIN SUCCESSFULLY" });
+                        return res.status(200).json({status: true, message: "USER LOGIN SUCCESSFULLY"});
                     }).catch((error) => {
                         return res.status(500).json(error);
                     });
@@ -68,6 +108,11 @@ const signIn = async (req, res) => {
         res.status(500).json(error);
     })
 }
+
+const signOut=(req,res)=>{
+    res.status(200).json({status:true,message:"USER LOGGOUT SUCCESSFULLY"})
+}
+
 const findUser = (req, res) => {
     User.findById({_id: req.headers._id}).then(result => {
         if (result == null) {
@@ -118,9 +163,9 @@ const getAllUsers = (req, res) => {
 const getAllRecentLoggedInUsers = (req, res) => {
     const twoDaysAgo = new Date();
     twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-    User.find({ loginTime: { $gte: twoDaysAgo } })
+    User.find({loginTime: {$gte: twoDaysAgo}})
         .then(result => {
-            res.status(200).json({ status: true, data: result });
+            res.status(200).json({status: true, data: result});
         })
         .catch(error => {
             res.status(500).json(error);
@@ -129,32 +174,33 @@ const getAllRecentLoggedInUsers = (req, res) => {
 const getUserCount = (req, res) => {
     User.countDocuments()
         .then(count => {
-            res.status(200).json({ status: true, count: count });
+            res.status(200).json({status: true, count: count});
         })
         .catch(error => {
-            res.status(500).json({ status: false, error: error.message });
+            res.status(500).json({status: false, error: error.message});
         });
 };
 const getUserIdByEmail = (req, res) => {
     const userEmail = req.body.email;
 
-    User.findOne({ email: userEmail })
+    User.findOne({email: userEmail})
         .then(user => {
             if (!user) {
-                return res.status(404).json({ status: false, message: 'USER NOT FOUND' });
+                return res.status(404).json({status: false, message: 'USER NOT FOUND'});
             }
-            res.status(200).json({ status: true, userId: user._id });
+            res.status(200).json({status: true, userId: user._id});
         })
         .catch(error => {
-            res.status(500).json({ status: false, error: error.message });
+            res.status(500).json({status: false, error: error.message});
         });
 };
 
 
-
 module.exports = {
+    initializeAdmin,
     signUp,
     signIn,
+    signOut,
     findUser,
     updateUser,
     deleteUser,
