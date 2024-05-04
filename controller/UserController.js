@@ -3,6 +3,8 @@ const bcrypt = require('bcrypt');
 const Generator = require('../util/CodeGenerator');
 const jwt = require('jsonwebtoken');
 const User = require('../model/UserSchema')
+const nodemailer = require('nodemailer')
+const crypto = require('crypto');
 
 
 const initializeAdmin = async () => {
@@ -110,7 +112,7 @@ const signIn = async (req, res) => {
 }
 
 const signOut=(req,res)=>{
-    res.status(200).json({status:true,message:"USER LOGGOUT SUCCESSFULLY"})
+    res.status(200).json({status:true,message:"USER LOGOUT SUCCESSFULLY"})
 }
 
 const findUser = (req, res) => {

@@ -9,8 +9,9 @@ const BookRoute = require('./route/BookRoute')
 const VideoRoute = require('./route/VideoRoute')
 const UserRoute = require('./route/UserRoute')
 const UsersBooksRoute = require('./route/UsersBooksRoute')
-const {initializeAdmin} = require("./controller/UserController");
 const UserController = require('./controller/UserController')
+const QuestionAnswerRoute = require('./route/QuestionAnswerRoute')
+const UserQuestionAttemptsRoute = require('./route/UserQuestionAttemptRoute')
 
 const app = express();
 app.use(bodyParser.urlencoded({extended: false}))
@@ -27,3 +28,5 @@ app.use('/api/v1/books', BookRoute);
 app.use('/api/v1/videos', VideoRoute);
 app.use('/api/v1/users', UserRoute);
 app.use('/api/v1/users-books', UsersBooksRoute);
+app.use('/api/v1/question-answers', QuestionAnswerRoute);
+app.use('/api/v1/question-attempts', UserQuestionAttemptsRoute);

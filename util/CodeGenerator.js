@@ -7,7 +7,7 @@ function generateRandomPostFix(length) {
     return result;
 }
 
-const generateCode=(category)=> {
+const generateCode = (category) => {
     let prefix = '';
     switch (category.toUpperCase()) {
         case 'FREE':
@@ -30,6 +30,6 @@ const generateCode=(category)=> {
     return `${prefix}-${postFix}`;
 }
 
-module.exports={
-    generateCode
+module.exports = {
+    generateCode,
 }
