@@ -396,7 +396,7 @@ const changePassword = async (req, res) => {
         }
         User.updateOne({_id: userId}, {
             $set: {
-                password: req.body.password
+                password: await bcrypt.hash(req.body.password)
             }
         }).then(result => {
             if (result.modifiedCount > 0) {
@@ -425,7 +425,7 @@ const updateProfile = async (req, res) => {
         User.updateOne({_id: userId}, {
             $set: {
                 fullName: req.body.fullName,
-                password: req.body.password,
+                password: await bcrypt.hash(req.body.password),
                 avatar: req.body.avatar,
                 mobile: req.body.mobile
             }
