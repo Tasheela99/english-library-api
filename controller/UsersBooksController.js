@@ -58,7 +58,6 @@ const saveUsersBooks = async (req, res) => {
     }
 };
 
-
 const getUsersBooks = async (req, res) => {
 
     /*http://localhost:3000/api/v1/users-books/get-users-books*/
@@ -82,7 +81,6 @@ const getUsersBooks = async (req, res) => {
         return res.status(404).json({status: false, error: 'INVALID TOKEN'});
     }
 };
-
 
 const getUsersBooksByCategory = async (req, res) => {
 
@@ -115,7 +113,6 @@ const getUsersBooksByCategory = async (req, res) => {
     }
 
 };
-
 
 const deleteUsersBooks = (req, res) => {
 
@@ -165,6 +162,7 @@ const getUsersBooksWithData = async (req, res) => {
         res.status(500).json({status: false, message: 'INTERNAL SERVER ERROR'});
     }
 };
+
 const getUsersBooksCount = (req, res) => {
 
     /*http://localhost:3000/api/v1/users-books/users-books-count*/
@@ -177,7 +175,6 @@ const getUsersBooksCount = (req, res) => {
             res.status(500).json({status: false, error: error.message});
         });
 };
-
 
 module.exports = {
     saveUsersBooks,

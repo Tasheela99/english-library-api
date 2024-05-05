@@ -3,7 +3,6 @@ const BookController = require('../controller/BookController');
 const router = express.Router();
 const verifyToken = require('../middleware/AuthMiddleware')
 const verifyPost = require('../middleware/AdminMiddleware')
-const {getBooksByCategory} = require("../controller/BookController");
 
 router.post('/save-book', verifyPost, BookController.saveBook);
 router.put('/update-book', verifyToken, BookController.updateBook);

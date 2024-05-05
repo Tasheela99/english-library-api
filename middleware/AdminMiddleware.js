@@ -1,6 +1,6 @@
 const jwt = require("jsonwebtoken");
 
-function verifyPost(req, res, next) {
+function verifyAdmin(req, res, next) {
     const authorizedHeader = req.headers.authorization;
     if (!authorizedHeader) {
         return res.status(401).json({ status: false, error: 'NO TOKEN PROVIDED' });
@@ -24,4 +24,4 @@ function verifyPost(req, res, next) {
     }
 }
 
-module.exports = verifyPost;
+module.exports = verifyAdmin;

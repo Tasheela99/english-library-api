@@ -1,11 +1,8 @@
 const jwt = require('jsonwebtoken');
 const User = require('../model/UserSchema')
-
-
 const QuestionAnswer = require('../model/QuestionAnswerSchema');
 const UserQuestionAttempt = require('../model/UserQuestionAttemptSchema');
 const lodash = require("lodash");
-const {compareSync} = require("bcrypt");
 
 const getAvailableQuestions = async (req, res) => {
 
@@ -39,7 +36,6 @@ const getAvailableQuestions = async (req, res) => {
         res.status(500).json(error);
     }
 };
-
 
 const attemptQuestion = async (req, res) => {
 
@@ -114,7 +110,6 @@ const attemptQuestion = async (req, res) => {
     }
 };
 
-
 const getTotalUserMarks = async (req, res) => {
 
     /*http://localhost:3000/api/v1/question-attempts/total-marks*/
@@ -138,7 +133,6 @@ const getTotalUserMarks = async (req, res) => {
         res.status(500).json(error);
     }
 };
-
 
 module.exports = {
     getAvailableQuestions,
