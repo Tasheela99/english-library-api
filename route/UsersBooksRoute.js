@@ -6,7 +6,8 @@ const verifyPost = require('../middleware/AdminMiddleware');
 
 router.post('/add-permission', verifyPost, UsersBooksController.saveUsersBooks);
 router.get('/get-users-books', verifyToken, UsersBooksController.getUsersBooks);
-router.get('/get-all-users-books', verifyToken, UsersBooksController.getAllUsersBooks);
+router.get('/get-users-books-by-category', verifyToken, UsersBooksController.getUsersBooksByCategory);
+router.get('/get-all-users-book-by-id', verifyToken, UsersBooksController.getUsersBookById);
 router.get('/get-all-users-books-with-data', UsersBooksController.getUsersBooksWithData);
 router.delete('/remove-permission', verifyPost, UsersBooksController.deleteUsersBooks);
 router.get('/users-books-count', verifyPost, UsersBooksController.getUsersBooksCount);

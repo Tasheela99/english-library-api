@@ -44,6 +44,16 @@ const initializeAdmin = async () => {
 
 
 const signUp = async (req, res) => {
+
+    /*http://localhost:3000/api/v1/users/sign-in
+   {
+        "fullName":"Tasheela Jayawickrama",
+        "email":"tasheelajay1999@gmail.com",
+        "mobile":"0766308272",
+        "password":"admin123"
+    }
+    */
+
     UserSchema.findOne({email: req.body.email}).then(async result => {
 
         if (result == null) {
@@ -83,6 +93,14 @@ const signUp = async (req, res) => {
 
 
 const signIn = async (req, res) => {
+
+   /*http://localhost:3000/api/v1/users/sign-in
+   {
+        "email":"tasheelajay1999@gmail.com",
+        "password":"admin123"
+    }
+    */
+
     UserSchema.findOne({email: req.body.email}).then(selectedUser => {
         if (selectedUser == null) {
             return res.status(404).json({status: false, message: 'USERNAME NOT FOUND'})

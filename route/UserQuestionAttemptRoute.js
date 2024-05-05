@@ -4,8 +4,8 @@ const UserQuestionAttemptsController = require('../controller/UserQuestionAttemp
 const verifyToken = require('../middleware/AuthMiddleware')
 
 
-router.get('/available-questions', UserQuestionAttemptsController.getAvailableQuestions);
-router.post('/attempt-question/:questionId', verifyToken, UserQuestionAttemptsController.attemptQuestion);
-router.get('/total-marks', UserQuestionAttemptsController.getTotalUserMarks);
+router.get('/available-questions', verifyToken, UserQuestionAttemptsController.getAvailableQuestions);
+router.post('/attempt-question', verifyToken, UserQuestionAttemptsController.attemptQuestion);
+router.get('/total-marks', verifyToken, UserQuestionAttemptsController.getTotalUserMarks);
 
 module.exports = router;

@@ -6,7 +6,7 @@ const BookSchema = new mongoose.Schema({
     bookPreviewImage:{type:String, required:true},
     bookResource:{type:String, required:true},
     bookPages:{type:Number, required:true},
-    bookEnteredDate:{type:String, required:true},
+    bookEnteredDate:{type: Date, default: Date.now},
 });
 
 module.exports = mongoose.model('Books',BookSchema);

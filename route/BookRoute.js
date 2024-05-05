@@ -11,10 +11,6 @@ router.delete('/delete-book', verifyToken, BookController.deleteBook);
 router.get('/find-book', verifyToken, BookController.findBook);
 router.get('/find-all-books', verifyToken, BookController.findAllBooks);
 router.get('/books-count', verifyToken, BookController.getBookCount);
-router.get('/get-free-books',verifyToken, BookController.getAllFreeBooks);
-router.get('/get-grammar-books',verifyToken, BookController.getAllGrammarBooks);
-router.get('/get-sentence-pattern-books',verifyToken, BookController.getAllSentencePatternBooks);
-router.get('/get-dialogue-books',verifyToken, BookController.getAllDialogueBooks);
-
+router.get('/get-books-by-category',verifyToken, BookController.getBooksByCategory);
 
 module.exports = router;
