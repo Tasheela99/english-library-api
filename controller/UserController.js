@@ -186,9 +186,13 @@ const signIn = async (req, res) => {
         }
         selectedUser.loginTime = new Date().toISOString();
         await selectedUser.save();
-        const token = jwt.sign({'email': selectedUser.email}, process.env.SECRET_KEY, {expiresIn: 3600});
+
+        const role = selectedUser.isAdmin ? 'ADMIN' : 'USER';
+
+        const token = jwt.sign({'email': selectedUser.email, role}, process.env.SECRET_KEY, {expiresIn: 3600});
         res.setHeader('Authorization', `Bearer ${token}`);
-        return res.status(200).json({status: true, message: "USER LOGIN SUCCESSFULLY"});
+
+        return res.status(200).json({status: true, message: "USER LOGIN SUCCESSFULLY", token});
 
     } catch (error) {
         console.error(error);
@@ -265,9 +269,9 @@ const getAllUsers = (req, res) => {
 }
 
 const getAllRecentLoggedInUsers = (req, res) => {
-    const twoDaysAgo = new Date();
-    twoDaysAgo.setDate(twoDaysAgo.getDate() - 2);
-    User.find({loginTime: {$gte: twoDaysAgo}})
+    const date = new Date();
+    date.setDate(date.getDate() - 2);
+    User.find({loginTime: {$gte: date}})
         .then(result => {
             res.status(200).json({status: true, data: result});
         })
@@ -348,8 +352,7 @@ const resetPassword = async (req, res) => {
             return res.status(400).json({status: false, message: 'INVALID OR EXPIRED TOKEN'});
         }
 
-        const newHashedPassword = await bcrypt.hash(newPassword, 10);
-        user.password = newHashedPassword;
+        user.password = await bcrypt.hash(newPassword, 10);
         user.passwordResetToken = undefined;
         user.passwordResetTokenExpires = undefined;
 
